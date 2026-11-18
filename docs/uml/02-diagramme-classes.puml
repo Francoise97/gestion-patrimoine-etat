@@ -1,0 +1,68 @@
+﻿@startuml
+skinparam classAttributeIconSize 0
+
+class Role {
+  +id : int
+  +nom : string
+}
+
+class Utilisateur {
+  +id : int
+  +nom : string
+  +email : string
+  +mot_de_passe : string
+  +role_id : int
+  +service_id : int
+}
+
+class Service {
+  +id : int
+  +nom : string
+  +code : string
+  +ministere : string
+}
+
+class Categorie {
+  +id : int
+  +libelle : string
+  +description : string
+}
+
+class Bien {
+  +id : int
+  +code_inventaire : string
+  +designation : string
+  +categorie_id : int
+  +valeur : decimal
+  +date_acquisition : date
+  +localisation : string
+  +etat : string
+  +statut : string
+}
+
+class Affectation {
+  +id : int
+  +bien_id : int
+  +service_id : int
+  +utilisateur_id : int
+  +date_debut : date
+  +date_fin : date
+  +motif : string
+}
+
+class Maintenance {
+  +id : int
+  +bien_id : int
+  +description : string
+  +date_signalement : date
+  +statut : string
+}
+
+Role "1" -- "0..*" Utilisateur : possède
+Service "1" -- "0..*" Utilisateur : emploie
+Categorie "1" -- "0..*" Bien : classe
+Bien "1" -- "0..*" Affectation : historique
+Service "1" -- "0..*" Affectation : reçoit
+Utilisateur "1" -- "0..*" Affectation : enregistre
+Bien "1" -- "0..*" Maintenance : subit
+@enduml
