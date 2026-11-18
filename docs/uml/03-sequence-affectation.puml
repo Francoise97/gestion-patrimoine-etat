@@ -1,0 +1,32 @@
+﻿@startuml
+title Affecter un bien à un service
+
+actor "Gestionnaire" as G
+participant "Frontend React" as F
+participant "Gateway (nginx)" as GW
+participant "auth-service" as AUTH
+participant "affectation-service" as AFF
+participant "patrimoine-service" as PAT
+database "PostgreSQL" as DB
+
+G -> F : Choisit un bien et un service
+F -> GW : POST /api/affectations (token)
+GW -> AUTH : Vérifie le token et le rôle
+AUTH --> GW : Utilisateur valide (gestionnaire)
+GW -> AFF : Transmet la demande
+AFF -> PAT : GET /api/biens/{id}
+PAT --> AFF : Bien (statut, état)
+
+alt Bien disponible (ni réformé, ni cédé)
+  AFF -> DB : Clôture l'affectation en cours (date_fin)
+  AFF -> DB : Crée la nouvelle affectation
+  DB --> AFF : OK
+  AFF --> GW : 201 Created
+  GW --> F : Affectation enregistrée
+  F --> G : Message de succès
+else Bien réformé ou cédé
+  AFF --> GW : 422 Affectation impossible
+  GW --> F : Erreur
+  F --> G : Message d'erreur
+end
+@enduml
