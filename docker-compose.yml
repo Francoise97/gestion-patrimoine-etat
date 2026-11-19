@@ -1,0 +1,73 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: patrimoine-postgres
+    environment:
+      POSTGRES_USER: patrimoine
+      POSTGRES_PASSWORD: patrimoine_pwd
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U patrimoine"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  auth-service:
+    build: ./services/auth-service
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: auth_db
+      DB_USERNAME: patrimoine
+      DB_PASSWORD: patrimoine_pwd
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  patrimoine-service:
+    build: ./services/patrimoine-service
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: patrimoine_db
+      DB_USERNAME: patrimoine
+      DB_PASSWORD: patrimoine_pwd
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  affectation-service:
+    build: ./services/affectation-service
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: affectation_db
+      DB_USERNAME: patrimoine
+      DB_PASSWORD: patrimoine_pwd
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  gateway:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./gateway/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - auth-service
+      - patrimoine-service
+      - affectation-service
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+
+volumes:
+  pgdata:

@@ -1,0 +1,23 @@
+@startuml
+title Diagramme de déploiement
+
+node "Docker (docker-compose)" {
+  node "frontend (React)\n:5173" as F
+  node "gateway (nginx)\n:8080" as GW
+  node "auth-service (Laravel)\n:8000" as A
+  node "patrimoine-service (Laravel)\n:8000" as P
+  node "affectation-service (Laravel)\n:8000" as AF
+  database "PostgreSQL\nauth_db | patrimoine_db | affectation_db" as DB
+}
+
+actor "Utilisateur" as U
+U --> F : HTTP
+F --> GW : API REST
+GW --> A : /api/auth
+GW --> P : /api/biens
+GW --> AF : /api/affectations
+A --> DB
+P --> DB
+AF --> DB
+AF ..> P : REST (vérifier un bien)
+@enduml
