@@ -34,6 +34,7 @@ services:
       DB_HOST: postgres
       DB_PORT: 5432
       DB_DATABASE: patrimoine_db
+      AUTH_SERVICE_URL: http://auth-service:8000
       DB_USERNAME: patrimoine
       DB_PASSWORD: patrimoine_pwd
     depends_on:
