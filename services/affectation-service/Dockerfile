@@ -7,4 +7,4 @@ WORKDIR /var/www/html
 COPY . .
 RUN composer install --no-interaction --prefer-dist
 EXPOSE 8000
-CMD ["sh", "-c", "cp -n .env.example .env; php artisan key:generate --force; php artisan migrate --force; php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["sh", "-c", "cp -n .env.example .env; php artisan key:generate --force; php artisan migrate --force; php artisan db:seed --force; php artisan serve --no-reload --host=0.0.0.0 --port=8000"]

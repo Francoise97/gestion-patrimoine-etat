@@ -2,24 +2,21 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Service;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $services = [
+            ['code' => 'MEF', 'nom' => 'Ministère des Finances', 'ministere' => 'Finances'],
+            ['code' => 'MSA', 'nom' => 'Ministère de la Santé', 'ministere' => 'Santé'],
+            ['code' => 'MEN', 'nom' => 'Ministère de l\'Éducation', 'ministere' => 'Éducation'],
+        ];
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        foreach ($services as $s) {
+            Service::firstOrCreate(['code' => $s['code']], $s);
+        }
     }
 }
