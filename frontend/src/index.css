@@ -131,3 +131,85 @@ input:focus, select:focus { outline: none; border-color: var(--vert); box-shadow
 .login-card { animation: apparition .45s ease; }
 .bottom-actions { display: flex; gap: 8px; margin-top: 16px; }
 .bottom-actions button:disabled { cursor: not-allowed; opacity: .45; }
+/* ===== Photo de fond (connexion) ===== */
+html { scroll-behavior: smooth; }
+.login-page {
+  background:
+    linear-gradient(rgba(0,106,78,.80), rgba(0,45,33,.88)),
+    url('/place-independance.jpg') center / cover no-repeat fixed,
+    var(--vert);
+}
+.retour { display: block; text-align: center; margin-top: 14px; font-size: 14px; color: var(--vert); text-decoration: none; }
+.retour:hover { text-decoration: underline; color: var(--rouge); }
+
+/* ===== Page d'accueil ===== */
+.home-nav { position: absolute; top: 0; left: 0; right: 0; z-index: 3; display: flex; justify-content: space-between; align-items: center; padding: 18px 32px; color: #fff; }
+.home-brand { display: flex; align-items: center; gap: 12px; }
+.home-links { display: flex; align-items: center; gap: 24px; }
+.home-links .lien { color: #fff; text-decoration: none; font-size: 15px; padding-bottom: 2px; border-bottom: 2px solid transparent; }
+.home-links .lien:hover { border-bottom-color: var(--jaune); }
+.btn-link { display: inline-block; background: var(--jaune); color: #1f2937; padding: 12px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 15px; transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease; }
+.btn-link:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.25); background: #ffd93d; }
+.btn-link.ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.75); }
+.btn-link.ghost:hover { background: rgba(255,255,255,.15); }
+
+.hero {
+  position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 120px 24px 90px; color: #fff;
+  background:
+    linear-gradient(rgba(0,106,78,.72), rgba(0,40,30,.85)),
+    url('/place-independance.jpg') center / cover no-repeat,
+    var(--vert);
+}
+.hero h1 { font-size: clamp(36px, 6vw, 64px); margin: 0 0 16px; letter-spacing: .5px; animation: apparition .6s ease; }
+.hero p { max-width: 660px; font-size: 19px; line-height: 1.55; color: #e6fff5; margin: 0 auto 30px; animation: apparition .8s ease; }
+.hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; animation: apparition 1s ease; }
+.credit { position: absolute; bottom: 22px; right: 22px; font-size: 12px; color: rgba(255,255,255,.8); }
+.flagbar { position: absolute; left: 0; right: 0; bottom: 0; height: 8px; background: linear-gradient(90deg, var(--vert) 0 33.3%, var(--jaune) 33.3% 66.6%, var(--rouge) 66.6% 100%); }
+
+.section { max-width: 1100px; margin: 0 auto; padding: 72px 24px; }
+.section h2 { text-align: center; color: var(--vert); font-size: 30px; margin: 0 0 8px; }
+.sous-titre { text-align: center; color: #6b7280; margin: 0 0 36px; }
+.band { background: #fff; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; }
+.feature { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 1px 6px rgba(0,0,0,.1); border-top: 4px solid var(--jaune); transition: transform .25s ease, box-shadow .25s ease; }
+.feature:hover { transform: translateY(-6px); box-shadow: 0 14px 28px rgba(0,106,78,.2); }
+.feature .ico { color: var(--vert); margin-bottom: 12px; }
+.feature h3 { margin: 0 0 8px; color: #1f2937; }
+.feature p { margin: 0; color: #6b7280; font-size: 14px; line-height: 1.55; }
+.band .feature { background: #f3f5f9; border-top-color: var(--vert); box-shadow: none; }
+.home-footer { display: flex; flex-direction: column; align-items: center; gap: 8px; background: var(--vert); color: #d1fae5; text-align: center; padding: 28px 16px; font-size: 14px; border-top: 5px solid var(--jaune); }
+.home-footer p { margin: 0; }
+
+@media (max-width: 700px) {
+  .home-nav { padding: 14px 16px; }
+  .home-links .lien { display: none; }
+  .home-brand .brand-text small { display: none; }
+}
+/* ===== Onglets (espace utilisateur) ===== */
+.tabs { display: flex; margin: 16px 0 4px; border-bottom: 2px solid #e5e7eb; }
+.tabs button { flex: 1; background: none; color: #6b7280; border: 0; border-bottom: 3px solid transparent; border-radius: 0; margin-bottom: -2px; padding: 10px 6px; font-weight: 600; }
+.tabs button:hover:not(:disabled) { color: var(--vert); transform: none; filter: none; }
+.tabs button.actif { color: var(--vert); border-bottom-color: var(--jaune); }
+.login-card .tabs button { width: auto; margin-top: 0; }
+
+/* ===== Espace administrateur : sobre et sombre ===== */
+.admin-page {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px;
+  background:
+    linear-gradient(rgba(6,16,14,.93), rgba(0,34,25,.95)),
+    url('/place-independance.jpg') center / cover no-repeat fixed,
+    #06100e;
+}
+.admin-card { width: 100%; max-width: 400px; background: #0e2a22; color: #e6fff5; border-radius: 12px; padding: 28px; border-top: 5px solid var(--rouge); box-shadow: 0 20px 50px rgba(0,0,0,.5); animation: apparition .45s ease; }
+.admin-head { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 10px; }
+.admin-lock { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(210,16,52,.18); color: #ff8da1; }
+.admin-card h1 { text-align: center; color: #fff; font-size: 24px; }
+.admin-sub { text-align: center; color: #9ec9bb; font-size: 14px; margin: 0 0 8px; }
+.admin-card label { color: #cfeee2; }
+.admin-card input { background: #153a30; color: #fff; border-color: #2c5a4b; }
+.admin-card input:hover, .admin-card input:focus { border-color: var(--jaune); box-shadow: 0 0 0 3px rgba(255,206,0,.18); }
+.admin-card button { width: 100%; margin-top: 18px; background: var(--rouge); }
+.admin-card .alert { background: rgba(210,16,52,.2); color: #ffc2cc; }
+.admin-retour { display: block; text-align: center; margin-top: 12px; font-size: 14px; color: #9ec9bb; text-decoration: none; }
+.admin-retour:hover { color: var(--jaune); text-decoration: underline; }

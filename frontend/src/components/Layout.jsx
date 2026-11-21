@@ -18,7 +18,7 @@ export default function Layout() {
         </div>
 
         <nav className="menu">
-          <NavLink to="/" end><IconDashboard /> Tableau de bord</NavLink>
+          <NavLink to="/tableau-de-bord"><IconDashboard /> Tableau de bord</NavLink>
           <NavLink to="/biens"><IconBox /> Inventaire</NavLink>
           <NavLink to="/affectations"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M7 7h13M16 3l4 4-4 4M17 17H4M8 13l-4 4 4 4"/></svg> Affectations</NavLink>
         </nav>
