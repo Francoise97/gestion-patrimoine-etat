@@ -23,10 +23,6 @@ export default function Layout() {
         </nav>
 
         <div className="sidebar-bottom">
-          <div className="who">
-            <span>{user.name}</span>
-            <span className="badge">{user.role}</span>
-          </div>
           <button className="logout" onClick={logout}><IconLogout /> Déconnexion</button>
         </div>
       </aside>

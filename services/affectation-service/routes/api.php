@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 // Tout utilisateur connecté
 Route::middleware(VerifyToken::class)->group(function () {
+    Route::get('affectations/courantes', [AffectationController::class, 'courantes']);
     Route::get('affectations/stats', [StatsController::class, 'index']);
     Route::get('affectations', [AffectationController::class, 'index']);
     Route::get('affectations/services', [ServiceController::class, 'index']);

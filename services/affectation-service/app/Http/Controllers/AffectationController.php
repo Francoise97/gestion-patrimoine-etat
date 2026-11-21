@@ -69,6 +69,12 @@ class AffectationController extends Controller
         return response()->json($affectation->load('service'), 201);
     }
 
+    // Affectations en cours (une par bien), pour afficher le ministère dans l'inventaire
+    public function courantes()
+    {
+        return response()->json(Affectation::with('service')->whereNull('date_fin')->get());
+    }
+
     public function historique(int $bienId)
     {
         return response()->json(

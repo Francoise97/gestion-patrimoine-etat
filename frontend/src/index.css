@@ -82,3 +82,52 @@ button.secondary:hover { background: var(--rouge); border-color: var(--rouge); c
   .sidebar { width: 100%; height: auto; position: static; }
   .filters { grid-template-columns: 1fr; }
 }
+.filters { grid-template-columns: 2fr 1fr 1fr 1fr; }
+.pager { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 16px; font-size: 14px; color: #6b7280; }
+.pager button:disabled { cursor: not-allowed; }
+.etat { display: inline-flex; align-items: center; gap: 6px; }
+.etat::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: #9ca3af; }
+.etat.neuf::before, .etat.bon::before { background: #16a34a; }
+.etat.use::before { background: #f59e0b; }
+.etat.hors_service::before { background: #dc2626; }
+@media (max-width: 800px) { .filters { grid-template-columns: 1fr; } }
+/* ===== Effets au survol et animations ===== */
+button, .menu a, .card, tbody tr, .bar, .legend li, .tag, input, select {
+  transition: background-color .2s ease, color .2s ease, box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+}
+
+/* Tableaux : la ligne s'éclaire et se décale légèrement */
+tbody tr:hover { background: #ecfdf5; box-shadow: inset 4px 0 0 var(--jaune); }
+tbody tr:hover td:first-child { font-weight: 600; color: var(--vert); }
+tbody tr td.muted:only-child { text-align: center; }
+
+/* Cartes : elles se soulèvent */
+.stat:hover, .charts .card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,106,78,.18); }
+
+/* Graphiques */
+.bar:hover { background: var(--jaune); transform: scaleY(1.04); transform-origin: bottom; }
+.legend li:hover { transform: translateX(6px); color: var(--vert); font-weight: 600; }
+.donut:hover { transform: rotate(8deg) scale(1.03); transition: transform .4s ease; }
+.tag:hover { transform: scale(1.08); }
+
+/* Menu */
+.menu a:hover { transform: translateX(4px); }
+
+/* Boutons */
+button:hover:not(:disabled) { filter: brightness(1.12); transform: translateY(-1px); }
+button:active:not(:disabled) { transform: translateY(0); }
+button.secondary:hover:not(:disabled) { background: #ecfdf5; border-color: var(--vert); color: var(--vert); filter: none; }
+button.danger { background: #fff; color: var(--rouge); border: 1px solid var(--rouge); }
+button.danger:hover:not(:disabled) { background: var(--rouge); color: #fff; filter: none; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* Champs */
+input:hover, select:hover { border-color: var(--vert); }
+input:focus, select:focus { outline: none; border-color: var(--vert); box-shadow: 0 0 0 3px rgba(0,106,78,.18); }
+
+/* Apparition douce des pages */
+@keyframes apparition { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.content > div { animation: apparition .35s ease; }
+.login-card { animation: apparition .45s ease; }
+.bottom-actions { display: flex; gap: 8px; margin-top: 16px; }
+.bottom-actions button:disabled { cursor: not-allowed; opacity: .45; }

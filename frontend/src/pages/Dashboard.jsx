@@ -3,7 +3,7 @@ import { api } from '../api'
 import { IconBox, IconMoney, IconWrench } from '../components/Icons'
 
 const fcfa = (n) => Number(n || 0).toLocaleString('fr-FR') + ' FCFA'
-const COULEURS = ['#006A4E', '#FFCE00', '#D21034', '#4aa37f', '#e8b923', '#8c9bb5']
+const COULEURS = ['#006A4E', '#FFCE00', '#D21034', '#4aa37f', '#0e8fa3', '#8c9bb5']
 const MOIS = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc']
 const nomMois = (cle) => MOIS[Number(cle.split('-')[1]) - 1]
 
