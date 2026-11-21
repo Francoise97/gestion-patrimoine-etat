@@ -213,3 +213,8 @@ html { scroll-behavior: smooth; }
 .admin-card .alert { background: rgba(210,16,52,.2); color: #ffc2cc; }
 .admin-retour { display: block; text-align: center; margin-top: 12px; font-size: 14px; color: #9ec9bb; text-decoration: none; }
 .admin-retour:hover { color: var(--jaune); text-decoration: underline; }
+/* ===== Demandes et validation ===== */
+.tag.en_attente { background: #fef3c7; color: #92400e; }
+.tag.approuvee { background: #dcfce7; color: #166534; }
+.tag.rejetee { background: #fee2e2; color: #991b1b; }
+.pastille { margin-left: auto; background: var(--rouge); color: #fff; border-radius: 999px; font-size: 12px; font-weight: 700; padding: 1px 9px; }
