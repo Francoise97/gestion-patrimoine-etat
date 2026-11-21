@@ -4,6 +4,7 @@ import Layout from './components/Layout'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Biens from './pages/Biens'
+import Affectations from './pages/Affectations'
 
 function Protected({ children }) {
   const { user } = useAuth()
@@ -19,6 +20,7 @@ export default function App() {
           <Route element={<Protected><Layout /></Protected>}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/biens" element={<Biens />} />
+          <Route path="/affectations" element={<Affectations />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
