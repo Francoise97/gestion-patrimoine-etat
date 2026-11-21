@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api'
+import { IconBox, IconMoney, IconWrench } from '../components/Icons'
 
 const fcfa = (n) => Number(n || 0).toLocaleString('fr-FR') + ' FCFA'
-const COULEURS = ['#1e3a8a', '#0ea5e9', '#f59e0b', '#10b981', '#8b5cf6', '#ef4444']
+const COULEURS = ['#006A4E', '#FFCE00', '#D21034', '#4aa37f', '#e8b923', '#8c9bb5']
 const MOIS = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc']
 const nomMois = (cle) => MOIS[Number(cle.split('-')[1]) - 1]
 
@@ -46,15 +47,15 @@ export default function Dashboard() {
 
       <div className="grid">
         <div className="card stat">
-          <span className="muted">📦 TOTAL BIENS</span>
+          <span className="stat-label"><IconBox /> TOTAL BIENS</span>
           <strong>{stats.total}</strong>
         </div>
         <div className="card stat">
-          <span className="muted">💰 VALEUR TOTALE</span>
+          <span className="stat-label"><IconMoney /> VALEUR TOTALE</span>
           <strong>{fcfa(stats.valeur_totale)}</strong>
         </div>
         <div className="card stat">
-          <span className="muted">🛠️ MAINTENANCE EN COURS</span>
+          <span className="stat-label"><IconWrench /> MAINTENANCE EN COURS</span>
           <strong>{aff.maintenances_ouvertes}</strong>
         </div>
       </div>

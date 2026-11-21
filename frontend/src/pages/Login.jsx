@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
+import Logo from '../components/Logo'
 
 export default function Login() {
   const { user, login } = useAuth()
@@ -29,8 +30,9 @@ export default function Login() {
   return (
     <div className="login-page">
       <form className="card login-card" onSubmit={submit}>
-        <h1>Gestion du patrimoine de l'État</h1>
-        <p className="muted">Connectez-vous pour accéder à la plateforme</p>
+        <div className="login-logo"><Logo size={64} /></div>
+        <h1>Patrimoine Togo</h1>
+        <p className="muted">Gestion du patrimoine de l'État togolais</p>
 
         {error && <div className="alert">{error}</div>}
 
@@ -43,6 +45,8 @@ export default function Login() {
         <button type="submit" disabled={loading}>
           {loading ? 'Connexion...' : 'Se connecter'}
         </button>
+
+        <p className="muted disclaimer">Projet pédagogique : données de démonstration, site non officiel.</p>
       </form>
     </div>
   )
