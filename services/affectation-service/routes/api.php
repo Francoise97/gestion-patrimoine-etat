@@ -3,11 +3,13 @@
 use App\Http\Controllers\AffectationController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\StatsController;
 use App\Http\Middleware\VerifyToken;
 use Illuminate\Support\Facades\Route;
 
 // Tout utilisateur connecté
 Route::middleware(VerifyToken::class)->group(function () {
+    Route::get('affectations/stats', [StatsController::class, 'index']);
     Route::get('affectations', [AffectationController::class, 'index']);
     Route::get('affectations/services', [ServiceController::class, 'index']);
     Route::get('affectations/maintenances', [MaintenanceController::class, 'index']);
