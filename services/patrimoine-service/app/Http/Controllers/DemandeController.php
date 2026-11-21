@@ -54,29 +54,36 @@ class DemandeController extends Controller
         return response()->json($demande->load('categorie'), 201);
     }
 
-    // L'administrateur approuve : le bien est alors créé dans l'inventaire
-    public function approuver(Demande $demande)
+    // L'administrateur revoit les données (il peut les corriger) puis enregistre le bien
+    public function approuver(Request $request, Demande $demande)
     {
         if ($demande->statut !== 'en_attente') {
             return response()->json(['message' => 'Cette demande a déjà été traitée'], 422);
         }
-        if (Bien::where('code_inventaire', $demande->code_inventaire)->exists()) {
+
+        $corrections = $request->validate([
+            'code_inventaire' => ['sometimes', 'required', 'string', 'max:50'],
+            'designation' => 'sometimes|required|string|max:255',
+            'categorie_id' => 'sometimes|required|exists:categories,id',
+            'valeur' => 'sometimes|required|numeric|min:0',
+            'date_acquisition' => 'nullable|date',
+            'localisation' => 'nullable|string|max:255',
+            'etat' => ['sometimes', 'required', Rule::in(Bien::ETATS)],
+        ]);
+
+        $donnees = array_merge($demande->only([
+            'code_inventaire', 'designation', 'categorie_id', 'valeur',
+            'date_acquisition', 'localisation', 'etat',
+        ]), $corrections);
+
+        if (Bien::where('code_inventaire', $donnees['code_inventaire'])->exists()) {
             return response()->json(['message' => 'Un bien porte déjà ce code d\'inventaire'], 422);
         }
 
-        $bien = DB::transaction(function () use ($demande) {
-            $bien = Bien::create([
-                'code_inventaire' => $demande->code_inventaire,
-                'designation' => $demande->designation,
-                'categorie_id' => $demande->categorie_id,
-                'valeur' => $demande->valeur,
-                'date_acquisition' => $demande->date_acquisition,
-                'localisation' => $demande->localisation,
-                'etat' => $demande->etat,
-                'statut' => 'en_service',
-            ]);
+        $bien = DB::transaction(function () use ($demande, $donnees) {
+            $bien = Bien::create($donnees + ['statut' => 'en_service']);
 
-            $demande->update([
+            $demande->update($donnees + [
                 'statut' => 'approuvee',
                 'bien_id' => $bien->id,
                 'motif_rejet' => null,
@@ -88,7 +95,6 @@ class DemandeController extends Controller
 
         return response()->json(['demande' => $demande->load('categorie'), 'bien' => $bien]);
     }
-
     public function rejeter(Request $request, Demande $demande)
     {
         if ($demande->statut !== 'en_attente') {
