@@ -3,7 +3,7 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../auth'
 import { api } from '../api'
 import Logo from './Logo'
-import { IconDashboard, IconBox, IconLogout } from './Icons'
+import { IconDashboard, IconBox, IconWrench, IconLogout } from './Icons'
 
 const svg = {
   width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor',
@@ -57,6 +57,7 @@ export default function Layout() {
           <NavLink to="/tableau-de-bord"><IconDashboard /> Tableau de bord</NavLink>
           <NavLink to="/biens"><IconBox /> Inventaire</NavLink>
           {gereAffectations && <NavLink to="/affectations"><IconTransfer /> Affectations</NavLink>}
+          <NavLink to="/pannes"><IconWrench /> Pannes</NavLink>
           {peutProposer && <NavLink to="/mes-demandes"><IconPlus /> Proposer un bien</NavLink>}
           {estAdmin && (
             <NavLink to="/validation">

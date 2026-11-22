@@ -8,6 +8,7 @@ import Home from './pages/Home'
 import Biens from './pages/Biens'
 import Demandes from './pages/Demandes'
 import Validation from './pages/Validation'
+import Pannes from './pages/Pannes'
 import Affectations from './pages/Affectations'
 
 function Protected({ children }) {
@@ -33,6 +34,7 @@ export default function App() {
             <Route path="/biens" element={<Biens />} />
           <Route path="/affectations" element={<Reserve roles={['admin', 'gestionnaire']}><Affectations /></Reserve>} />
             <Route path="/mes-demandes" element={<Reserve roles={['agent']}><Demandes /></Reserve>} />
+            <Route path="/pannes" element={<Pannes />} />
             <Route path="/validation" element={<Reserve roles={['admin']}><Validation /></Reserve>} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />

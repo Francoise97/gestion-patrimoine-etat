@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api'
+import ActionsRapides from '../components/ActionsRapides'
 import { IconBox, IconMoney, IconWrench } from '../components/Icons'
 
 const fcfa = (n) => Number(n || 0).toLocaleString('fr-FR') + ' FCFA'
@@ -44,6 +45,8 @@ export default function Dashboard() {
       <div className="page-head">
         <h2>Tableau de bord</h2>
       </div>
+
+      <ActionsRapides />
 
       <div className="grid">
         <div className="card stat">
