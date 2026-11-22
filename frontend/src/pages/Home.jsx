@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../auth'
 import Logo from '../components/Logo'
+import Diaporama from '../components/Diaporama'
+import usePhotos from '../components/usePhotos'
+import { urlPhoto } from '../photos'
 import { IconBox, IconDashboard, IconWrench } from '../components/Icons'
 
 const IconTransfer = (p) => (
@@ -41,6 +44,7 @@ const PROFILS = [
 
 export default function Home() {
   const { user } = useAuth()
+  const photos = usePhotos()
   const cible = user ? '/tableau-de-bord' : '/login'
   const libelle = user ? 'Accéder à mon espace' : 'Se connecter'
 
@@ -56,6 +60,7 @@ export default function Home() {
         </div>
         <nav className="home-links">
           <a className="lien" href="#fonctions">Fonctionnalités</a>
+          {photos.length > 0 && <a className="lien" href="#galerie">Le Togo en images</a>}
           <a className="lien" href="#profils">Profils</a>
           <Link className="lien" to="/admin/login">Administration</Link>
           <Link className="btn-link" to={cible}>{libelle}</Link>
@@ -63,6 +68,7 @@ export default function Home() {
       </header>
 
       <section className="hero">
+        <Diaporama photos={photos.filter((p) => p.hero !== false)} />
         <h1>Patrimoine Togo</h1>
         <p>
           La plateforme de gestion des biens de l'État togolais : inventaire, affectations,
@@ -73,7 +79,6 @@ export default function Home() {
           <a className="btn-link ghost" href="#fonctions">Découvrir</a>
           <Link className="btn-link ghost" to="/admin/login">Espace administrateur</Link>
         </div>
-        <small className="credit">Place de l'Indépendance, Lomé</small>
         <div className="flagbar" />
       </section>
 
@@ -91,18 +96,37 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="profils" className="band">
-        <div className="section">
-          <h2>Pour qui ?</h2>
-          <p className="sous-titre">Chaque utilisateur accède uniquement à ce qui concerne son rôle.</p>
-          <div className="cards">
-            {PROFILS.map((p) => (
-              <div className="feature profil" key={p.nom}>
-                <h3>{p.nom}</h3>
-                <p>{p.texte}</p>
-              </div>
-            ))}
+      {photos.length > 0 && (
+        <section id="galerie" className="band">
+          <div className="section">
+            <h2>Le Togo en images</h2>
+            <p className="sous-titre">Des lieux et bâtiments emblématiques du patrimoine togolais.</p>
+            <div className="galerie">
+              {photos.map((p) => (
+                <figure key={p.fichier}>
+                  <img src={urlPhoto(p)} alt={`${p.titre}, ${p.lieu}`} loading="lazy" />
+                  <figcaption>
+                    <strong>{p.titre}</strong>
+                    {p.lieu}
+                    {p.credit && <small>{p.credit}</small>}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
           </div>
+        </section>
+      )}
+
+      <section id="profils" className="section">
+        <h2>Pour qui ?</h2>
+        <p className="sous-titre">Chaque utilisateur accède uniquement à ce qui concerne son rôle.</p>
+        <div className="cards">
+          {PROFILS.map((p) => (
+            <div className="feature profil" key={p.nom}>
+              <h3>{p.nom}</h3>
+              <p>{p.texte}</p>
+            </div>
+          ))}
         </div>
       </section>
 
