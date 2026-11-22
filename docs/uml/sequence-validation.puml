@@ -1,0 +1,17 @@
+@startuml
+actor Agent
+participant Interface
+participant API
+actor Administrateur
+Agent -> Interface : Remplit le formulaire
+Interface -> API : Envoie la demande
+API --> Interface : Demande « en attente »
+Interface --> Agent : Confirmation
+Administrateur -> Interface : Ouvre Validation
+Interface -> API : Liste des demandes
+Administrateur -> Interface : Corrige et enregistre
+Interface -> API : Enregistre le bien
+API -> API : Crée le bien
+API --> Interface : Bien créé
+Interface --> Administrateur : Confirmation
+@enduml

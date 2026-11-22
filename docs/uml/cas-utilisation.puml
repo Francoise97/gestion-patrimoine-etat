@@ -1,0 +1,30 @@
+@startuml
+left to right direction
+actor Agent
+actor Auditeur
+actor Gestionnaire
+actor Administrateur
+Administrateur --|> Gestionnaire
+rectangle "Application Patrimoine Togo" {
+  usecase "Proposer un bien" as UC1
+  usecase "Signaler une panne" as UC2
+  usecase "Consulter l'inventaire" as UC3
+  usecase "Consulter les pannes" as UC4
+  usecase "Gérer les biens" as UC5
+  usecase "Affecter ou transférer un bien" as UC6
+  usecase "Faire avancer une panne" as UC7
+  usecase "Valider une demande" as UC8
+}
+Agent --> UC1
+Agent --> UC2
+Agent --> UC3
+Auditeur --> UC3
+Auditeur --> UC4
+Gestionnaire --> UC2
+Gestionnaire --> UC3
+Gestionnaire --> UC4
+Gestionnaire --> UC5
+Gestionnaire --> UC6
+Gestionnaire --> UC7
+Administrateur --> UC8
+@enduml

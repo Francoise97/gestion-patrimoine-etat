@@ -1,0 +1,44 @@
+@startuml
+class Categorie {
+  libelle
+}
+class Bien {
+  code_inventaire
+  designation
+  valeur
+  date_acquisition
+  localisation
+  etat
+  statut
+}
+class Utilisateur {
+  name
+  email
+  role
+}
+class Demande {
+  données du bien
+  statut
+}
+class Service {
+  nom
+  code
+  ministere
+}
+class Affectation {
+  date_debut
+  date_fin
+  motif
+}
+class Maintenance {
+  description
+  statut
+  date_signalement
+}
+Categorie "1" -- "*" Bien
+Bien "1" .. "*" Affectation
+Bien "1" .. "*" Maintenance
+Service "1" -- "*" Affectation
+Utilisateur "1" -- "*" Demande
+Demande ..> Bien : devient
+@enduml
