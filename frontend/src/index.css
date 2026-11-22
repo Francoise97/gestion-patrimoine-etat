@@ -240,3 +240,7 @@ html { scroll-behavior: smooth; }
 .galerie { display: block; columns: 3 240px; column-gap: 18px; }
 .galerie figure { aspect-ratio: auto; break-inside: avoid; margin: 0 0 18px; }
 .galerie img { height: auto; }
+/* ===== Galerie en colonnes : chaque photo garde sa forme ===== */
+.galerie { display: block; columns: 3 240px; column-gap: 18px; }
+.galerie figure { aspect-ratio: auto; break-inside: avoid; margin: 0 0 18px; }
+.galerie img { height: auto; }
