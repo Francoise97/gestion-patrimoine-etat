@@ -62,7 +62,6 @@ export default function Home() {
           <a className="lien" href="#fonctions">Fonctionnalités</a>
           {photos.length > 0 && <a className="lien" href="#galerie">Le Togo en images</a>}
           <a className="lien" href="#profils">Profils</a>
-          <Link className="lien" to="/admin/login">Administration</Link>
           <Link className="btn-link" to={cible}>{libelle}</Link>
         </nav>
       </header>
@@ -71,13 +70,11 @@ export default function Home() {
         <Diaporama photos={photos.filter((p) => p.hero !== false)} />
         <h1>Patrimoine Togo</h1>
         <p>
-          La plateforme de gestion des biens de l'État togolais : inventaire, affectations,
-          maintenance et suivi, en un seul endroit.
+          Sachez à tout moment ce que possède l’État, où se trouve chaque bien et dans quel état il est. Un inventaire unique, des transferts tracés, des pannes suivies jusqu’à la réparation.
         </p>
         <div className="hero-actions">
           <Link className="btn-link" to={cible}>{libelle}</Link>
           <a className="btn-link ghost" href="#fonctions">Découvrir</a>
-          <Link className="btn-link ghost" to="/admin/login">Espace administrateur</Link>
         </div>
         <div className="flagbar" />
       </section>

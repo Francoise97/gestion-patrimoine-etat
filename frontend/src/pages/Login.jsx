@@ -3,7 +3,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
 import Logo from '../components/Logo'
 
-const ROLES_CLIENT = ['agent', 'gestionnaire', 'auditeur']
+
 
 export default function Login() {
   const { user, login, register } = useAuth()
@@ -27,7 +27,7 @@ export default function Login() {
     setError('')
     setLoading(true)
     try {
-      if (mode === 'connexion') await login(email, password, ROLES_CLIENT)
+      if (mode === 'connexion') await login(email, password)
       else await register(name, email, password)
       navigate('/tableau-de-bord')
     } catch (err) {
@@ -46,8 +46,8 @@ export default function Login() {
     <div className="login-page">
       <form className="card login-card" onSubmit={submit}>
         <div className="login-logo"><Logo size={64} /></div>
-        <h1>Espace utilisateur</h1>
-        <p className="muted">Agents, gestionnaires et auditeurs</p>
+        <h1>Connexion</h1>
+        <p className="muted">Un seul accès pour les clients et l'administrateur. Les clients peuvent créer leur compte.</p>
 
         <div className="tabs">
           <button type="button" className={mode === 'connexion' ? 'actif' : ''} onClick={() => changerMode('connexion')}>Connexion</button>
@@ -74,7 +74,6 @@ export default function Login() {
         </button>
 
         <Link className="retour" to="/">Retour à l'accueil</Link>
-        <Link className="retour" to="/admin/login">Espace administrateur</Link>
         <p className="muted disclaimer">Projet pédagogique : données de démonstration, site non officiel.</p>
       </form>
     </div>

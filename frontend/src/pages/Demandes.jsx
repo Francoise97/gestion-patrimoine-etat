@@ -3,7 +3,7 @@ import { api } from '../api'
 
 const fcfa = (n) => Number(n || 0).toLocaleString('fr-FR') + ' FCFA'
 const ETATS = [['neuf', 'Neuf'], ['bon', 'Bon'], ['use', 'Usé'], ['hors_service', 'Hors service']]
-const STATUTS = { en_attente: 'En attente', approuvee: 'Approuvée', rejetee: 'Rejetée' }
+const STATUTS = { en_attente: 'En attente', approuvee: 'Approuvée', rejetee: 'Refusée' }
 const VIDE = {
   code_inventaire: '', designation: '', categorie_id: '', valeur: '',
   date_acquisition: '', localisation: '', etat: 'neuf',
@@ -51,13 +51,13 @@ export default function Demandes() {
       else setPage(1)
     } catch (err) {
       const details = err.errors ? ' ' + Object.values(err.errors).flat().join(' ') : ''
-      setErreur(err.message + details)
+      setErreur(details.trim() || err.message)
     }
   }
 
   const observation = (d) => {
     if (d.statut === 'approuvee') return "Enregistré dans l'inventaire"
-    if (d.statut === 'rejetee') return d.motif_rejet || 'Aucun motif indiqué'
+    if (d.statut === 'rejetee') return 'Refusé : ' + (d.motif_rejet || 'aucun motif indiqué')
     return "En attente de validation par l'administrateur"
   }
 
@@ -139,7 +139,7 @@ export default function Demandes() {
                   <td>{d.categorie?.libelle}</td>
                   <td>{fcfa(d.valeur)}</td>
                   <td><span className={`tag ${d.statut}`}>{STATUTS[d.statut]}</span></td>
-                  <td>{observation(d)}</td>
+                  <td className={d.statut === 'rejetee' ? 'motif-refus' : ''}>{observation(d)}</td>
                 </tr>
               ))}
             </tbody>

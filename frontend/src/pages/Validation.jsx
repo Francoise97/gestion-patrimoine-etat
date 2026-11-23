@@ -4,7 +4,7 @@ import { api } from '../api'
 const fcfa = (n) => Number(n || 0).toLocaleString('fr-FR') + ' FCFA'
 const ETATS = [['neuf', 'Neuf'], ['bon', 'Bon'], ['use', 'Usé'], ['hors_service', 'Hors service']]
 const libelleEtat = (v) => ETATS.find(([k]) => k === v)?.[1] ?? v
-const STATUTS = { en_attente: 'En attente', approuvee: 'Approuvée', rejetee: 'Rejetée' }
+const STATUTS = { en_attente: 'En attente', approuvee: 'Approuvée', rejetee: 'Refusée' }
 
 export default function Validation() {
   const [categories, setCategories] = useState([])
@@ -76,19 +76,23 @@ export default function Validation() {
       apres(`« ${edition.designation} » a été enregistré dans l'inventaire.`)
     } catch (err) {
       const details = err.errors ? ' ' + Object.values(err.errors).flat().join(' ') : ''
-      setErreur(err.message + details)
+      setErreur(details.trim() || err.message)
     }
   }
 
   const rejeter = async () => {
     if (!aTraiter) return
-    const motif = window.prompt(`Motif du refus pour « ${selection.designation} » (facultatif) :`)
-    if (motif === null) return
+    const motif = (window.prompt(`Motif du refus pour « ${selection.designation} » (obligatoire, le client le verra) :`) || '').trim()
+    if (!motif) {
+      setSucces('')
+      setErreur('Le motif du refus est obligatoire : le client le verra sur sa demande.')
+      return
+    }
     setErreur('')
     setSucces('')
     try {
-      await api(`/demandes/${selection.id}/rejeter`, { method: 'POST', body: { motif_rejet: motif || null } })
-      apres(`La demande « ${selection.designation} » a été rejetée.`)
+      await api(`/demandes/${selection.id}/rejeter`, { method: 'POST', body: { motif_rejet: motif } })
+      apres(`La demande « ${selection.designation} » a été refusée.`)
     } catch (err) {
       setErreur(err.message)
     }
@@ -100,7 +104,7 @@ export default function Validation() {
         <h2>Validation des biens</h2>
         <div className="toolbar">
           <button disabled={!aTraiter} onClick={ouvrirEnregistrement}>Enregistrer dans l'inventaire</button>
-          <button className="danger" disabled={!aTraiter} onClick={rejeter}>Rejeter</button>
+          <button className="danger" disabled={!aTraiter} onClick={rejeter}>Refuser</button>
         </div>
       </div>
       <p className="muted hint">
@@ -163,7 +167,7 @@ export default function Validation() {
           <select value={statut} onChange={(e) => { setPage(1); setStatut(e.target.value) }}>
             <option value="en_attente">Demandes en attente</option>
             <option value="approuvee">Demandes enregistrées</option>
-            <option value="rejetee">Demandes rejetées</option>
+            <option value="rejetee">Demandes refusées</option>
             <option value="">Toutes les demandes</option>
           </select>
         </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../auth'
 import { api } from '../api'
@@ -27,6 +27,12 @@ export default function Layout() {
   const { user, logout } = useAuth()
   const location = useLocation()
   const [enAttente, setEnAttente] = useState(0)
+  const [notif, setNotif] = useState('')
+  const precedent = useRef(null)
+
+  useEffect(() => {
+    document.title = enAttente > 0 ? `(${enAttente}) Patrimoine Togo` : 'Patrimoine Togo'
+  }, [enAttente])
 
   const estAdmin = user.role === 'admin'
   const gereAffectations = ['admin', 'gestionnaire'].includes(user.role)
@@ -35,11 +41,24 @@ export default function Layout() {
   useEffect(() => {
     if (!estAdmin) return undefined
     const charger = () => {
-      api('/demandes/compte').then((d) => setEnAttente(d.en_attente)).catch(() => {})
+      api('/demandes/compte')
+        .then((d) => {
+          const n = d.en_attente
+          if (precedent.current !== null && n > precedent.current) {
+            setNotif((n - precedent.current) + ' nouvelle(s) demande(s) à valider')
+          }
+          precedent.current = n
+          setEnAttente(n)
+        })
+        .catch(() => {})
     }
     charger()
     window.addEventListener('demandes-changees', charger)
-    return () => window.removeEventListener('demandes-changees', charger)
+    const minuteur = setInterval(charger, 15000)
+    return () => {
+      clearInterval(minuteur)
+      window.removeEventListener('demandes-changees', charger)
+    }
   }, [estAdmin, location.pathname])
 
   return (
@@ -54,31 +73,38 @@ export default function Layout() {
         </div>
 
         <nav className="menu">
-          <NavLink to="/tableau-de-bord"><IconDashboard /> Tableau de bord</NavLink>
-          <NavLink to="/biens"><IconBox /> Inventaire</NavLink>
+          {!peutProposer && <NavLink to="/tableau-de-bord"><IconDashboard /> Tableau de bord</NavLink>}
+          {!peutProposer && <NavLink to="/biens"><IconBox /> Inventaire</NavLink>}
           {gereAffectations && <NavLink to="/affectations"><IconTransfer /> Affectations</NavLink>}
           <NavLink to="/pannes"><IconWrench /> Pannes</NavLink>
-          {peutProposer && <NavLink to="/mes-demandes"><IconPlus /> Proposer un bien</NavLink>}
+          {peutProposer && <NavLink to="/mes-demandes"><IconPlus /> Mes biens et demandes</NavLink>}
           {estAdmin && (
             <NavLink to="/validation">
               <IconCheck /> Validation
               {enAttente > 0 && <span className="pastille">{enAttente}</span>}
             </NavLink>
           )}
+          {estAdmin && <NavLink to="/administration"><IconDashboard /> Administration</NavLink>}
+          {estAdmin && <NavLink to="/clients"><IconDashboard /> Clients</NavLink>}
         </nav>
 
         <div className="sidebar-bottom">
-          <div className="who">
-            <span>{user.name}</span>
-            <span className="badge">{user.role}</span>
-          </div>
           <button className="logout" onClick={logout}><IconLogout /> Déconnexion</button>
         </div>
+        <div className="tricolore"><i /><i /><i /></div>
       </aside>
 
       <main className="content">
         <Outlet />
       </main>
+
+      {notif && (
+        <div className="toast" role="status">
+          <span>{notif}</span>
+          <NavLink to="/validation" onClick={() => setNotif('')}>Voir</NavLink>
+          <button type="button" onClick={() => setNotif('')}>Fermer</button>
+        </div>
+      )}
     </div>
   )
 }
