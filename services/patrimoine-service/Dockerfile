@@ -6,5 +6,6 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 COPY . .
 RUN composer install --no-interaction --prefer-dist
+ENV LOG_CHANNEL=stderr
 EXPOSE 8000
 CMD ["sh", "-c", "cp -n .env.example .env; php artisan key:generate --force; php artisan migrate --force; php artisan db:seed --force; php artisan serve --no-reload --host=0.0.0.0 --port=8000"]
