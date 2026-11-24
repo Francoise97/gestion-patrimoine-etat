@@ -4,7 +4,7 @@ services:
     container_name: patrimoine-postgres
     environment:
       POSTGRES_USER: patrimoine
-      POSTGRES_PASSWORD: patrimoine_pwd
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?copier .env.example vers .env}
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -22,7 +22,7 @@ services:
       DB_PORT: 5432
       DB_DATABASE: auth_db
       DB_USERNAME: patrimoine
-      DB_PASSWORD: patrimoine_pwd
+      DB_PASSWORD: ${DB_PASSWORD}
     depends_on:
       postgres:
         condition: service_healthy
@@ -36,7 +36,7 @@ services:
       DB_DATABASE: patrimoine_db
       AUTH_SERVICE_URL: http://auth-service:8000
       DB_USERNAME: patrimoine
-      DB_PASSWORD: patrimoine_pwd
+      DB_PASSWORD: ${DB_PASSWORD}
     depends_on:
       postgres:
         condition: service_healthy
@@ -51,7 +51,7 @@ services:
       AUTH_SERVICE_URL: http://auth-service:8000
       PATRIMOINE_SERVICE_URL: http://patrimoine-service:8000
       DB_USERNAME: patrimoine
-      DB_PASSWORD: patrimoine_pwd
+      DB_PASSWORD: ${DB_PASSWORD}
     depends_on:
       postgres:
         condition: service_healthy
