@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/api/auth/:path*", "destination": "https://gestion-patrimoine-etat-3evr.onrender.com/api/auth/:path*" },
+    { "source": "/api/categories/:path*", "destination": "https://patrimoine-biens-r91e.onrender.com/api/categories/:path*" },
+    { "source": "/api/demandes/:path*", "destination": "https://patrimoine-biens-r91e.onrender.com/api/demandes/:path*" },
+    { "source": "/api/biens/:path*", "destination": "https://patrimoine-biens-r91e.onrender.com/api/biens/:path*" },
+    { "source": "/api/affectations/:path*", "destination": "https://patrimoine-affectations-784e.onrender.com/api/affectations/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
